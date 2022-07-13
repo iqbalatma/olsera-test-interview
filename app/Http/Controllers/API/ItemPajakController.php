@@ -16,13 +16,14 @@ class ItemPajakController extends Controller
      */
     public function index()
     {
-        $query = DB::table('items')
-            ->join('item_pajak', 'items.id', '=', 'item_pajak.item_id')
-            // ->join('model_names', 'model_names.id', '=', 'model_names_relations.model_name_id')
-            // ->where('blog_posts.id', '12')
+        $items = DB::table('items')->select('items.nama as nama_item', 'items.id', 'item_pajak.item_id', 'item_pajak.pajak_id', 'pajaks.rate', 'pajaks.nama as nama_pajak')
+            ->rightJoin('item_pajak', 'items.id', '=', 'item_pajak.item_id')
+            ->join('pajaks', 'pajaks.id', '=', 'item_pajak.pajak_id')
             ->get();
+
+
         return response()->json([
-            'data' => $query,
+            'data' => $items,
             'status' => 'success',
         ], 200);
     }
