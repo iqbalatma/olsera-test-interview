@@ -28,7 +28,6 @@ class ItemPajakController extends Controller
                 ),
             ']'
                 )
-            
             as pajak
             from items join 
                  item_pajak 
@@ -37,15 +36,17 @@ class ItemPajakController extends Controller
             group by items.id, items.nama";
 
         $items = DB::select($sql);
-
-
-
-
+        $finalItems = [];
+        foreach ($items as $key => $value) {
+            $currentItem = $value;
+            $currentItem->pajak = json_decode($value->pajak);
+            array_push($finalItems, $currentItem);
+        }
 
 
         return response()->json([
-            'data' => $items,
             'status' => 'success',
+            'final_item' => $finalItems
         ], 200);
     }
 
