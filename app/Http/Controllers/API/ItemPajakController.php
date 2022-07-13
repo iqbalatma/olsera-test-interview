@@ -16,26 +16,13 @@ class ItemPajakController extends Controller
      */
     public function index()
     {
-        // $items = DB::table('items')
-        //     ->select('items.nama as nama_item', 'items.id', 'item_pajak.item_id', 'item_pajak.pajak_id', 'pajaks.rate', 'pajaks.nama as nama_pajak')
-        //     ->rightJoin('item_pajak', 'items.id', '=', 'item_pajak.item_id')
-        //     ->join('pajaks', 'pajaks.id', '=', 'item_pajak.pajak_id')
-        //     ->get();
 
-        $sql = "SELECT items.*, group_concat(item_pajak.item_id) FROM items 
-                3 JOIN item_pajak ON items.id = item_pajak.item_id
-                INNER JOIN pajaks ON pajaks.id = item_pajak.pajak_id group by items.id
-            ";
-
-        $sql = 'select items.id, items.nama,group_concat(item_pajak.pajak_id) as pajak
+        $sql = 'select items.id, items.nama,group_concat(pajaks.id, pajaks.nama, pajaks.id, pajaks.rate) as pajak
             from items join 
                  item_pajak 
-                 on items.id = item_pajak.item_id 
+                 on items.id = item_pajak.item_id
+                 join pajaks on pajaks.id = item_pajak.pajak_id
             group by items.id, items.nama';
-        // $sql = "SELECT item_pajak.item_id,item_pajak.pajak_id, items.id, items.nama as nama_item, GROUP_CONCAT(item_pajak.pajak_id) as pajak_id FROM items 
-        //         RIGHT JOIN item_pajak ON items.id = item_pajak.item_id
-        //         INNER JOIN pajaks ON pajaks.id = item_pajak.pajak_id
-        //     ";
 
         $items = DB::select($sql);
 
