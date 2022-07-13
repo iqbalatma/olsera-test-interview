@@ -17,13 +17,18 @@ class ItemPajakController extends Controller
     public function index()
     {
         $sql = "select items.id, items.nama,
+        concat(
+            '[',
             group_concat(
                 JSON_OBJECT(
                     'id',pajaks.id,
                     'nama', pajaks.nama,
                      'rate', pajaks.rate
                      )
+                ),
+            ']'
                 )
+            
             as pajak
             from items join 
                  item_pajak 
@@ -32,6 +37,7 @@ class ItemPajakController extends Controller
             group by items.id, items.nama";
 
         $items = DB::select($sql);
+
 
 
 
