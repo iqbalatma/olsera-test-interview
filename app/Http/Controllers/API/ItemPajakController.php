@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ItemPajakController extends Controller
 {
@@ -15,10 +16,13 @@ class ItemPajakController extends Controller
      */
     public function index()
     {
-        $items =  Item::with('pajak')->get();
-
+        $query = DB::table('items')
+            ->join('item_pajak', 'items.id', '=', 'item_pajak.item_id')
+            // ->join('model_names', 'model_names.id', '=', 'model_names_relations.model_name_id')
+            // ->where('blog_posts.id', '12')
+            ->get();
         return response()->json([
-            'data' => $items,
+            'data' => $query,
             'status' => 'success',
         ], 200);
     }

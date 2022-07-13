@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PajakSeeder::class,
             ItemSeeder::class,
-            ItemPajakSeeder::class,
         ]);
     }
 }

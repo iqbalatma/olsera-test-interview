@@ -52,9 +52,10 @@ class ItemController extends Controller
 
 
         $item =  Item::create($request->all());
-        foreach ($idPajak as $pajak) {
-            ItemPajak::create(['item_id' => $item->id, 'pajak_id' => $pajak]);
-        }
+
+        $insertedItem = Item::find($item->id);
+        $insertedItem->pajak()->attach($idPajak);
+
         return response()->json([
             'message' => 'Item berhasil ditambahkan',
             'status' => 'success',
@@ -94,23 +95,23 @@ class ItemController extends Controller
             ], 400);
         }
 
+        $idPajak = $request->input('pajak_id');
 
-        $update = Item::where('id', $id)->update($request->all());
+        $item = Item::find($id);
+        $item->pajak()->sync($idPajak);
+
+        $update = Item::where('id', $id)->update(['nama' => $request->input('nama')]);
 
         if (!$update) {
             return response()->json([
                 'message' => "Item dengan id $id tidak ditemukan",
                 'status' => 'failed',
-                'tes' => $update
             ], 200);
         }
 
-        ItemPajak::where('item_id', $id)->delete();
-        ItemPajak::create(['item_id' => $id, 'pajak_id' => 1]);
         return response()->json([
             'message' => "Item dengan id $id berhasil diupate",
             'status' => 'success',
-            'tes' => $update
         ], 200);
     }
 
@@ -122,7 +123,9 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        ItemPajak::where('item_id', $id)->delete();
+        $item = Item::find($id);
+        $item->pajak()->detach();
+
         $delete = Item::destroy($id);
 
         if (!$delete) {
@@ -135,6 +138,7 @@ class ItemController extends Controller
         return response()->json([
             'message' => "Item dengan id $id berhasil dihapus",
             'status' => 'success',
+            'delete' => $delete
         ], 200);
     }
 }
