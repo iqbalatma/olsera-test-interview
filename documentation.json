@@ -50,14 +50,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/items/2",
+					"raw": "{{url}}/api/items/7",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"items",
-						"2"
+						"7"
 					]
 				}
 			},
@@ -75,18 +75,29 @@
 							"key": "nama",
 							"value": "item edited",
 							"type": "text"
+						},
+						{
+							"key": "pajak_id[0]",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
 						}
 					]
 				},
 				"url": {
-					"raw": "{{url}}/api/items/4",
+					"raw": "{{url}}/api/items/3",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"items",
-						"4"
+						"3"
 					]
 				}
 			},

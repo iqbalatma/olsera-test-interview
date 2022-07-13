@@ -23,7 +23,7 @@ class ItemPajakController extends Controller
                 JSON_OBJECT(
                     'id',pajaks.id,
                     'nama', pajaks.nama,
-                     'rate', pajaks.rate
+                     'rate', concat(pajaks.rate * 100,'%')
                      )
                 ),
             ']'
